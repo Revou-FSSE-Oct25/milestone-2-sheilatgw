@@ -4,12 +4,79 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./src/output.css">
-    <title>Document</title>
+    <title>Gameverse</title>
 </head>
-<body>
-    <h1 class="text-4xl font-bold text-red-500">
-  Tailwind v4 jalan 🚀
-</h1>
+<body class="bg-zinc-800 h-screen snap-y snap-mandatory overflow-scroll scroll-smooth">
+    <header id="header" class="bg-transparent fixed top-0 left-0 w-full z-50 transition-all duration-300">
+        <div class="hidden md:block">
+           <nav class="flex items-center justify-between py-8 px-16">
+           <a href="#home" class="hidden md:block font-sekuya text-xl text-stone-50 mr-8 whitespace-nowrap">
+            <span class="text-sky-500">OG</span>ame<span class="text-rose-700">v</span>erse</a>
+           <ul class="hidden md:flex md:gap-10 text-stone-50 text-lg font-medium">
+            <li><a class="hover:line-through"  href="#games">Games</a></li>
+            <li><a class="hover:line-through"  href="#about">About us</a></li>
+            <li><a class="hover:line-through"  href="#contact">Contact</a></li>
+           </ul>
+        </nav> 
+        </div>
+        
+        <div class="flex items-center justify-between py-7 px-8">
+            <a href="#home" class="md:hidden font-sekuya text-xl mr-8 whitespace-nowrap">
+                <span class="text-sky-500">OG</span><span class="text-rose-700">V</span></a>
+            <button id="burger" class="md:hidden p-2">
+            <div class="w-6 h-0.5 bg-stone-50 mb-1"></div>
+            <div class="w-6 h-0.5 bg-stone-50 mb-1"></div>
+            <div class="w-6 h-0.5 bg-stone-50"></div>
+        </button>
+        </div>
 
+    <ul id="menu" class="hidden md:hidden flex-col gap-4 px-6 pb-4 text-stone-50">
+        <li><a href="#games">Games</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+    </ul>
+        </div> 
+    </header>
+    <script src="mainScript/header.js"></script>
+    <section id="home" class="text-stone-50 pt-36 px-8 md:pt-70 md:px-16 h-screen snap-start">
+        <h1 id="fade" class="text-4xl md:text-7xl font-bold opacity-0 transition-opacity duration-1000">
+            <span class="text-2xl md:text-6xl font-sekuya">
+            <span class="text-sky-500">OG</span>ame<span class="text-rose-700">V</span>erse</span><br>
+            is a <span class="text-sky-500">game</span> studio dedicated to creating 
+            <span class="text-sky-500">timeless</span> interactive entertainment that 
+            <span class="text-sky-500">inspires</span> human <span class="text-sky-500">connection</span> 
+            across the world, for <span class="text-sky-500">all ages</span>.
+        </h1>
+    </section>
+    <script src="mainScript/fade.js"></script>
+    <section id="about" class="h-screen snap-start text-stone-50 pt-60 pb-8 px-8 md:pt-70 md:px-16">
+        <p class="text-center text-2xl md:text-4xl"><span class="font-sekuya"><span class="text-sky-500">OG</span>ame<span class="text-rose-700">V</span>erse</span></span>, <br>founded in 2025, is a forward-thinking game development company focused on 
+            creating innovative and immersive experiences for players worldwide. Combining cutting-edge technology with bold 
+            creativity, the studio aiming to inspire and entertain through dynamic gameplay.</p>
+    </section>
+    <section id="games" class="h-screen pt-60 pb-8 px-8 md:pt-30 md:pb-50 md:px-16">
+        <h2 class="text-stone-50 font-bold text-4xl text-center">Try Our Games</h2><br><br><br>
+        <div class="gap-6 flex flex-wrap justify-center items-center">
+
+            <div class="w-60 p-2 bg-white md:bg-[url('/media/number.jpg')] rounded-xl transform transition-all hover:-translate-y-2 duration-300 shadow-lg hover:shadow-2xl my-4 lg:mt-0">
+                <img src="media/number.jpg" class="md:hidden h-40 object-cover rounded-xl">
+                <div class="p-2">
+                    <p class="font-bold text-lg mb-2">Guess a Number</p>
+                    <p class="text-sm text-gray-600 my-2">a simple game where one person thinks of a secret number within a range, and others guess it.</p>
+                </div>
+                <div class="flex items-center justify-center gap-2 mb-3">
+                    <a href="games/numberGuess.html">
+                        <button class="px-3 py-1 rounded-lg bg-gray-300 hover:bg-blue-500">Play Now</button>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+</section>
+
+/*
+
+    </section>
+    <!--<script src="mainScript/scroll.js"></script>-->
 </body>
 </html>
