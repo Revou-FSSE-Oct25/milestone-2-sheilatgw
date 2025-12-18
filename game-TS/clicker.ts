@@ -45,7 +45,7 @@ buttonClick.addEventListener('click',()=>{
         uikaMisumi.src = "/media/dolorisu.webp";
     }
     else if (score >=1000){
-        uikaMisumi.src = "/media/doloris.webp";
+        uikaMisumi.src = "/media/doloris.webp"; 
     }
 
     if (score > highScore) {
