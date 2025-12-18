@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "module": "ESNext",
+    "rootDir": "./game-TS",
+    "outDir": "./dist",
+    "strict": true,
+    "skipLibCheck": true
+  }
+}
+
