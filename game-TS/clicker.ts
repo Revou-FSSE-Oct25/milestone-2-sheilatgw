@@ -1,4 +1,4 @@
-window.addEventListener("DOMContentLoaded", () => {
+export {}
 const buttonClick = document.getElementById("button") as HTMLButtonElement;
 const playButton = document.getElementById("replay") as HTMLButtonElement;
 const scoreEl = document.getElementById("score") as HTMLElement;
@@ -6,9 +6,13 @@ const highScoreEl = document.getElementById("high-score") as HTMLElement;
 const timerEl = document.getElementById("timer") as HTMLElement;
 const uikaMisumi = document.getElementById("uika") as HTMLImageElement;
 
+console.log(buttonClick);
+
+
 let score = 0;
-let timeLeft = 30;
+let timeLeft = 20;
 let highScore = 0;
+let timeStarted = false;
 let timer: number;
 
 let playerName: string = localStorage.getItem("nickname") || "Player";
@@ -25,7 +29,6 @@ if (storedHighScore) {
 }
 
 function startTimer() {
-    clearInterval(timer); 
     timer = setInterval(() => {
         timeLeft--;
         timerEl.textContent = String(timeLeft);
@@ -39,13 +42,17 @@ function startTimer() {
 }
 
 buttonClick.addEventListener('click',()=>{
+    if (!timeStarted) {
+        startTimer();          
+        timeStarted = true;
+    }
     score+=10;
     scoreEl.textContent = String(score);
-    if (score >=500){
-        uikaMisumi.src = "/media/dolorisu.webp";
+    if (score >=1000){
+        uikaMisumi.src = "/media/doloris.webp";
     }
-    else if (score >=1000){
-        uikaMisumi.src = "/media/doloris.webp"; 
+    else if (score >=500){
+        uikaMisumi.src = "/media/dolorisu.webp";
     }
 
     if (score > highScore) {
@@ -57,14 +64,16 @@ buttonClick.addEventListener('click',()=>{
 });
 
 playButton.addEventListener("click", () => {
+    clearInterval(timer);
     score = 0;
-    timeLeft = 30;
+    timeLeft = 20;
+    timeStarted = false;
+    timerEl.textContent = "20"
+    scoreEl.textContent = "0";
     scoreEl.textContent = String(score);
     uikaMisumi.src = "/media/hatsune.webp";
     buttonClick.disabled = false;
-    startTimer();
 });
 
-startTimer();
-});
+
 
