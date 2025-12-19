@@ -50,13 +50,13 @@ The main goal of this project is to practice:
 ## 📸 Screenshots / Demo
 
 ### Screenshots
-![Home Page](screenshot/web-homepage.png)
 - Home Page  
-![Rock Paper Scissors](screenshot/rock-paper-scissor.png)
+![Home Page](screenshot/web-homepage.png)
 - Rock Paper Scissors Game  
-![Clicker Game](screenshot/clicker.png)
+![Rock Paper Scissors](screenshot/rock-paper-scissor.png)
 - Clicker Game  
-![Guess a Number](screenshot/guess-a-number.png)
+![Clicker Game](screenshot/clicker.png)
 - Guess a Number Game  
+![Guess a Number](screenshot/guess-a-number.png)
 
 
