@@ -1,24 +1,16 @@
-"use strict";
-const choices = ["rock", "paper", "scissor"];
-const playAgain = document.getElementById("replay");
-const mizukiScore = document.getElementById("mizukiScore");
-const yaeMikoScore = document.getElementById("yaeMikoScore");
-const resultStatus = document.getElementById("result");
-const yumeMizuki = document.getElementById("mizuki");
-const yaeMiko = document.getElementById("yaeMiko");
-let mizukiPoint = 0;
-let yaeMikoPoint = 0;
-let gameOver = false;
-const rockButton = document.getElementById("rock");
-const paperButton = document.getElementById("paper");
-const scissorButton = document.getElementById("scissor");
-function game(mizukiChoice) {
-    if (gameOver)
-        return;
+export const choices = ["rock", "paper", "scissor"];
+export const state = { mizukiPoint: 0, yaeMikoPoint: 0, gameOver: false };
+export function game(mizukiChoice) {
+    if (state.gameOver)
+        return null;
     const yaeMikoChoice = choices[Math.floor(Math.random() * 3)];
-    if (mizukiChoice === yaeMikoChoice) {
-        resultStatus.textContent = "IT'S A TIE!";
+    if (yaeMikoChoice === '1') {
         return;
+    }
+    if (mizukiChoice === yaeMikoChoice) {
+        return { tie: true, mizukiPoint: state.mizukiPoint,
+            yaeMikoPoint: state.yaeMikoPoint, gameOver: state.gameOver,
+            mizukiChoice, yaeMikoChoice };
     }
     let mizukiWin = false;
     switch (mizukiChoice) {
@@ -32,43 +24,21 @@ function game(mizukiChoice) {
             mizukiWin = yaeMikoChoice === "paper";
             break;
     }
-    if (mizukiWin) {
-        mizukiPoint++;
-        mizukiScore.textContent = String(mizukiPoint);
-        yumeMizuki.src = "/media/mizukirw.webp";
-        yaeMiko.src = "/media/yaerl.webp";
-        resultStatus.textContent = "Mizuki Win This Round!";
-    }
-    else {
-        yaeMikoPoint++;
-        yaeMikoScore.textContent = String(yaeMikoPoint);
-        yumeMizuki.src = "/media/mizukirl.webp";
-        yaeMiko.src = "/media/yaerw.webp";
-        resultStatus.textContent = "Yae Miko Win This Round!";
-    }
-    if (mizukiPoint === 3) {
-        resultStatus.textContent = "🎉 MIZUKI WIN THE GAME!";
-        gameOver = true;
-        yumeMizuki.src = "/media/mizukiwin.webp";
-        yaeMiko.src = "/media/yaelose.webp";
-    }
-    else if (yaeMikoPoint === 3) {
-        resultStatus.textContent = "💀 YAE MIKO WIN THE GAME!";
-        gameOver = true;
-        yumeMizuki.src = "/media/mizukilose.webp";
-        yaeMiko.src = "/media/yaewin.webp";
-    }
+    if (mizukiWin)
+        state.mizukiPoint++;
+    else
+        state.yaeMikoPoint++;
+    if (state.mizukiPoint === 3)
+        state.gameOver = true;
+    if (state.yaeMikoPoint === 3)
+        state.gameOver = true;
+    return { mizukiWin, mizukiPoint: state.mizukiPoint,
+        yaeMikoPoint: state.yaeMikoPoint, gameOver: state.gameOver,
+        mizukiChoice, yaeMikoChoice, };
 }
-rockButton.addEventListener("click", () => game("rock"));
-paperButton.addEventListener("click", () => game("paper"));
-scissorButton.addEventListener("click", () => game("scissor"));
-playAgain.addEventListener("click", () => {
-    mizukiPoint = 0;
-    yaeMikoPoint = 0;
-    gameOver = false;
-    yumeMizuki.src = "/media/mizuki.webp";
-    yaeMiko.src = "/media/yae.webp";
-    mizukiScore.textContent = "0";
-    yaeMikoScore.textContent = "0";
-    resultStatus.textContent = "CHOOSE YOUR MOVE, MIZUKI!";
-});
+export function resetGame() {
+    state.mizukiPoint = 0;
+    state.yaeMikoPoint = 0;
+    state.gameOver = false;
+    return state;
+}

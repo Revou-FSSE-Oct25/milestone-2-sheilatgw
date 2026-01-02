@@ -1,79 +1,48 @@
-export {}
-const buttonClick = document.getElementById("button") as HTMLButtonElement;
-const playButton = document.getElementById("replay") as HTMLButtonElement;
-const scoreEl = document.getElementById("score") as HTMLElement;
-const highScoreEl = document.getElementById("high-score") as HTMLElement;
-const timerEl = document.getElementById("timer") as HTMLElement;
-const uikaMisumi = document.getElementById("uika") as HTMLImageElement;
+export{}
 
-console.log(buttonClick);
+export let timeLeft = 20;
 
-
-let score = 0;
-let timeLeft = 20;
-let highScore = 0;
-let timeStarted = false;
-let timer: number;
-
-let playerName: string = localStorage.getItem("nickname") || "Player";
-if (!playerName) {
-    const name = prompt("Enter your nickname:")?.trim();
-    playerName = name && name !== "" ? name : "Player";
-    localStorage.setItem("nickname", playerName);
+export function gameHighScore(currentScore: number){
+    const stored = localStorage.getItem("highScore");
+    if(stored === null){
+        return currentScore;
+    }
+    const storedScoreClicker = Number(stored)
+    if(currentScore > storedScoreClicker){
+        return currentScore;
+    }
+    return storedScoreClicker;
 }
 
-const storedHighScore = localStorage.getItem("highScore");
-if (storedHighScore) {
-    highScore = Number(storedHighScore);
-    highScoreEl.textContent = storedHighScore;
+export function startTimer (startTime: number){
+    const state = { ended: false, timeLeft: startTime };
+
+    const timer = setInterval(() => {
+    state.timeLeft--;
+
+    if (state.timeLeft <= 0) {
+      clearInterval(timer);
+      state.ended = true;
+    }
+  }, 1000);
+
+  return state;
 }
 
-function startTimer() {
-    timer = setInterval(() => {
-        timeLeft--;
-        timerEl.textContent = String(timeLeft);
+export const state = { score: 0, highScore: 0, timeLeft: 20 };
 
-        if (timeLeft <= 0) {
-            clearInterval(timer);
-            buttonClick.disabled = true;
-            alert(`Waktu habis! Skormu: ${score}`);
-        }
-    }, 1000);
+export function clickGame() {
+  state.score += 10;
+  state.highScore = Math.max(state.score, state.highScore);
+  localStorage.setItem("highScore", String(state.highScore));
+  return state;
 }
 
-buttonClick.addEventListener('click',()=>{
-    if (!timeStarted) {
-        startTimer();          
-        timeStarted = true;
-    }
-    score+=10;
-    scoreEl.textContent = String(score);
-    if (score >=1000){
-        uikaMisumi.src = "/media/doloris.webp";
-    }
-    else if (score >=500){
-        uikaMisumi.src = "/media/dolorisu.webp";
-    }
-
-    if (score > highScore) {
-        highScore = score;
-        highScoreEl.textContent = String(highScore);
-        localStorage.setItem("highScore", String(highScore));
-        localStorage.setItem("highScoreBy", playerName!);
-    }
-});
-
-playButton.addEventListener("click", () => {
-    clearInterval(timer);
-    score = 0;
-    timeLeft = 20;
-    timeStarted = false;
-    timerEl.textContent = "20"
-    scoreEl.textContent = "0";
-    scoreEl.textContent = String(score);
-    uikaMisumi.src = "/media/hatsune.webp";
-    buttonClick.disabled = false;
-});
+export function resetGame() {
+  state.score = 0;
+  state.timeLeft = 20;
+  return state;
+}
 
 
 

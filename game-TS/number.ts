@@ -1,112 +1,77 @@
-const container = document.getElementById("container");
-const buttonPlay = document.getElementById("again");
-const buttonCheck = document.getElementById("check");
-const hideNumber = document.getElementById("hide");
-const message = document.getElementById("message");
-const inputNumber = document.getElementById("input_num");
-const highScoreEl = document.getElementById("high_score");
-const scoreEl = document.getElementById("score");
-const attemptsLeft = document.getElementById("attempt");
+export type GameState = {
+    secretNumber: number;
+    score: number;
+    attempts: number;
+    highScore: number;
+};
 
-if (!container || !buttonPlay || !buttonCheck || !hideNumber || !message || !inputNumber || !highScoreEl || !scoreEl || !attemptsLeft) {
-    throw new Error("Error banh DOM nya ga ketemu");
-}
+export function createGame(gameKey: string = "numberGuess") {
+    const highScoreKey = `${gameKey}_highScore`;
+    const highScoreByKey = `${gameKey}_highScoreBy`;
+    const nicknameKey = `${gameKey}_nickname`;
 
-const input = inputNumber as HTMLInputElement;
-const playButton = buttonPlay as HTMLButtonElement;
-const checkButton = buttonCheck as HTMLButtonElement;
-const leftAttempts = attemptsLeft as HTMLElement;
-const arlecchino = document.getElementById("arlecchino") as HTMLImageElement;
+    let highScore = Number(localStorage.getItem(highScoreKey) || 0);
 
+    let secretNumber = Math.trunc(Math.random() * 100 + 1);
+    let score = 100;
+    let attempts = 20;
 
-let secretNumber = Math.trunc(Math.random() * 100 + 1);
-let score = 100;
-let highScore = 0;
-let attempts = 20;
-
-let playerName: string = localStorage.getItem("nickname") || "Player";
-if (!playerName) {
-    const name = prompt("Enter your nickname:")?.trim();
-    playerName = name && name !== "" ? name : "Player";
-    localStorage.setItem("nickname", playerName);
-}
-message.textContent = `Good luck, ${playerName}!`;
-
-
-const storedHighScore = localStorage.getItem("highScore");
-if (storedHighScore) {
-    highScore = Number(storedHighScore);
-    highScoreEl.textContent = storedHighScore;
-}
-
-function updateAttempts(attempts: number) {
-    leftAttempts.textContent = String(attempts);
-
-    if (attempts <=10){
-        leftAttempts.classList.add("text-red-500");
-        arlecchino.src = "/media/arlecalm.webp";
-    }
-    else {
-        leftAttempts.classList.remove("text-red-500");
+    // Ambil atau minta nickname
+    let playerName: string = localStorage.getItem(nicknameKey) || "Player";
+    if (!playerName) {
+        const name = prompt("Enter your nickname:")?.trim();
+        playerName = name && name !== "" ? name : "Player";
+        localStorage.setItem(nicknameKey, playerName);
     }
 
-}
-
-buttonCheck.addEventListener('click',()=>{
-    const guess: number = Number(input.value);
-
-    if (Number.isNaN(guess)){
-        message.textContent = "Please enter the number :(";
-        return;
+    function guessNumber(num: number) {
+    if (attempts <= 0) {
+        // Kalau attempts sudah habis
+        return { message: "You've lost the game :(", correct: false, score: 0, attempts: 0 };
     }
 
-    if (guess != secretNumber){
-        if (score > 1){ 
-            score -= 5;
-            scoreEl.textContent = String(score);
-            attempts--;
-            updateAttempts(attempts);
-            message.textContent = guess > secretNumber ? "Too High!" : "Too Low!";
-        }
-        else {
-            message.textContent = "You've lost the game :(";
-            scoreEl.textContent = "0";
-            container.classList.add("bg-white");
+    if (num !== secretNumber) {
+        score -= 5;
+        attempts--; // kurangi attempts setiap kali salah
+
+        if (attempts <= 0 || score <= 0) {
+            score = 0;
             attempts = 0;
-            updateAttempts(attempts);
-            arlecchino.src = "/media/arlescary.webp";
+            return { message: "You've lost the game :(", correct: false, score, attempts };
         }
-    }
-    else {
-        hideNumber.textContent = String(secretNumber);
-        hideNumber.style.width = "50%";
-        hideNumber.style.transition = "all 0.5s ease-in";
-        container.classList.add("bg-stone-200");
-        message.textContent = "Congratulations! You've won the game :)";
-        arlecchino.src = "/media/arlesmile.webp"
 
-        if (score > highScore){
+        return { message: num > secretNumber ? "Too High!" : "Too Low!", correct: false, score, attempts };
+    } else {
+        if (score > highScore) {
             highScore = score;
-            highScoreEl.textContent = String(highScore);
-            localStorage.setItem("highScore", String(highScore));
-            localStorage.setItem("highScoreBy", playerName);
+            localStorage.setItem(highScoreKey, String(highScore));
+            localStorage.setItem(highScoreByKey, playerName);
         }
+        return { message: `Congratulations ${playerName}! You've won the game :)`, correct: true, score, attempts, highScore };
     }
-})
+}
 
-playButton.addEventListener("click", () => {
-    score = 100;
-    attempts = 20;
-    secretNumber = Math.trunc(Math.random() * 100 + 1);
 
-    scoreEl.textContent = String(score);
-    updateAttempts(attempts);
-    message.textContent = "Start guessing......";
-    hideNumber.textContent = "?";
-    input.value = "";
-    container.classList.remove("bg-white", "bg-stone-200");
-    arlecchino.src = "/media/arlessh.webp";
-});
+    function resetGame() {
+        score = 100;
+        attempts = 20;
+        secretNumber = Math.trunc(Math.random() * 100 + 1);
+        return { score, attempts };
+    }
+
+    function getHighScore() {
+        return highScore;
+    }
+
+    function getPlayerName() {
+        return playerName;
+    }
+
+    return {guessNumber, resetGame, getHighScore, getPlayerName,
+        getState: () => ({ secretNumber, score, attempts, highScore, playerName }),
+    };
+}
+
 
 
 

@@ -2,10 +2,12 @@
   "compilerOptions": {
     "target": "ES2017",
     "module": "ESNext",
+    "moduleResolution": "bundler",
     "rootDir": "./game-TS",
     "outDir": "./dist",
     "strict": true,
     "skipLibCheck": true
   }
 }
+
 
