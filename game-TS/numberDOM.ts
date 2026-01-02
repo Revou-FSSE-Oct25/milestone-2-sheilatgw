@@ -55,7 +55,6 @@ buttonCheck.addEventListener("click", () => {
         container.classList.add("bg-stone-200");
         arlecchino.src = "/media/arlesmile.webp";
 
-        // Update highscore localStorage
         localStorage.setItem("highScore", String(game.getHighScore()));
         localStorage.setItem("highScoreBy", playerName);
         highScoreEl.textContent = String(game.getHighScore());

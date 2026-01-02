@@ -16,7 +16,6 @@ export function createGame(gameKey: string = "numberGuess") {
     let score = 100;
     let attempts = 20;
 
-    // Ambil atau minta nickname
     let playerName: string = localStorage.getItem(nicknameKey) || "Player";
     if (!playerName) {
         const name = prompt("Enter your nickname:")?.trim();
@@ -26,13 +25,12 @@ export function createGame(gameKey: string = "numberGuess") {
 
     function guessNumber(num: number) {
     if (attempts <= 0) {
-        // Kalau attempts sudah habis
         return { message: "You've lost the game :(", correct: false, score: 0, attempts: 0 };
     }
 
     if (num !== secretNumber) {
         score -= 5;
-        attempts--; // kurangi attempts setiap kali salah
+        attempts--;
 
         if (attempts <= 0 || score <= 0) {
             score = 0;
@@ -50,7 +48,6 @@ export function createGame(gameKey: string = "numberGuess") {
         return { message: `Congratulations ${playerName}! You've won the game :)`, correct: true, score, attempts, highScore };
     }
 }
-
 
     function resetGame() {
         score = 100;
