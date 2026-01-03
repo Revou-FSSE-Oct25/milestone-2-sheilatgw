@@ -1,6 +1,5 @@
 var _a;
 import { createGame } from "./number.js";
-// Ambil DOM
 const container = document.getElementById("container");
 const buttonPlay = document.getElementById("again");
 const buttonCheck = document.getElementById("check");
@@ -11,7 +10,6 @@ const highScoreEl = document.getElementById("high_score");
 const scoreEl = document.getElementById("score");
 const attemptsEl = document.getElementById("attempt");
 const arlecchino = document.getElementById("arlecchino");
-// Player
 let playerName = localStorage.getItem("nickname") || "Player";
 if (!playerName) {
     const name = (_a = prompt("Enter your nickname:")) === null || _a === void 0 ? void 0 : _a.trim();

@@ -1,4 +1,3 @@
-
 export const choices = ["rock", "paper", "scissor"];
 export const state = {mizukiPoint: 0, yaeMikoPoint: 0, gameOver: false};
 
